@@ -3,14 +3,25 @@
 var contractInstance
 var web3js
 
-function startApp() {
+
+function startApp() 
+{
+  var abi = JSON.parse('[ { "constant": false, "inputs": [ { "name": "_fact_value", "type": "uint256" } ], "name": "startNewRound", "outputs": [], "payable": true, "stateMutability": "payable", "type": "function" }, { "constant": false, "inputs": [ { "name": "a", "type": "uint256[2]" }, { "name": "a_p", "type": "uint256[2]" }, { "name": "b", "type": "uint256[2][2]" }, { "name": "b_p", "type": "uint256[2]" }, { "name": "c", "type": "uint256[2]" }, { "name": "c_p", "type": "uint256[2]" }, { "name": "h", "type": "uint256[2]" }, { "name": "k", "type": "uint256[2]" }, { "name": "input", "type": "uint256[1]" } ], "name": "verifyTx", "outputs": [ { "name": "r", "type": "bool" } ], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [ { "name": "a", "type": "uint256[2]" }, { "name": "a_p", "type": "uint256[2]" }, { "name": "b1", "type": "uint256[2]" }, { "name": "b2", "type": "uint256[2]" }, { "name": "b_p", "type": "uint256[2]" }, { "name": "c", "type": "uint256[2]" }, { "name": "c_p", "type": "uint256[2]" }, { "name": "h", "type": "uint256[2]" }, { "name": "k", "type": "uint256[2]" } ], "name": "withdraw", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "inputs": [ { "name": "_fact_value", "type": "uint256" } ], "payable": true, "stateMutability": "payable", "type": "constructor" }, { "anonymous": false, "inputs": [ { "indexed": false, "name": "", "type": "string" } ], "name": "PaidOut", "type": "event" }, { "anonymous": false, "inputs": [ { "indexed": false, "name": "", "type": "string" } ], "name": "WrongAnswer", "type": "event" }, { "anonymous": false, "inputs": [ { "indexed": false, "name": "", "type": "string" } ], "name": "Verified", "type": "event" } ]')
+  zkFact = web3js.eth.contract(abi);
+}
+
+function startNewRound()
+{
+  contractInstance = zkFact.at($("#address").val());
+  contractInstance.startNewRound.sendTransaction(web3js.toBigNumber($("#factvalue").val()), {value: web3js.toWei($("#startNewRoundAmount").val(),"finney")},function (err, transactionHash) {
+    if (!err)
+      console.log(transactionHash);
+  }
+  );
 }
 
 function submitProof() {
-  abi = JSON.parse('[ { "anonymous": false, "inputs": [ { "indexed": false, "name": "", "type": "string" } ], "name": "PaidOut", "type": "event" }, { "inputs": [ { "name": "_fact_value", "type": "uint256" } ], "payable": true, "stateMutability": "payable", "type": "constructor" }, { "constant": false, "inputs": [ { "name": "a", "type": "uint256[2]" }, { "name": "a_p", "type": "uint256[2]" }, { "name": "b", "type": "uint256[2][2]" }, { "name": "b_p", "type": "uint256[2]" }, { "name": "c", "type": "uint256[2]" }, { "name": "c_p", "type": "uint256[2]" }, { "name": "h", "type": "uint256[2]" }, { "name": "k", "type": "uint256[2]" }, { "name": "input", "type": "uint256[1]" } ], "name": "verifyTx", "outputs": [ { "name": "r", "type": "bool" } ], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [ { "name": "a", "type": "uint256[2]" }, { "name": "a_p", "type": "uint256[2]" }, { "name": "b1", "type": "uint256[2]" }, { "name": "b2", "type": "uint256[2]" }, { "name": "b_p", "type": "uint256[2]" }, { "name": "c", "type": "uint256[2]" }, { "name": "c_p", "type": "uint256[2]" }, { "name": "h", "type": "uint256[2]" }, { "name": "k", "type": "uint256[2]" } ], "name": "withdraw", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "anonymous": false, "inputs": [ { "indexed": false, "name": "", "type": "string" } ], "name": "WrongAnswer", "type": "event" }, { "anonymous": false, "inputs": [ { "indexed": false, "name": "", "type": "string" } ], "name": "Verified", "type": "event" } ]')
-  zkFact = web3js.eth.contract(abi);
   contractInstance = zkFact.at($("#address").val());
-
   proof = $("#zokratesproof").val();
   lines = proof.split('\n');
 
@@ -62,7 +73,7 @@ function submitProof() {
 
   contractInstance.withdraw.sendTransaction(a, a_p, b1, b2, b_p, c, c_p, h, k, function (err, transactionHash) {
     if (!err)
-      console.log(transactionHash); // "0x7f9fade1c0d57a7af66ab4ead7c2eb7b11a91385"
+      console.log(transactionHash);
   }
   );
 }

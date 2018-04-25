@@ -13,6 +13,14 @@
           <td>Contract Address</td>
           <td>  <input type="text" size="60" id="address" ></textarea></td>
         </tr>
+
+    </table>
+  </div>
+
+
+  <hr/>
+  <div class="table-responsive">
+    <table class="table table-bordered">
         <tr>
           <td>Zokrates Proof</td>
           <td>  <textarea rows="20" cols="80" id="zokratesproof" ></textarea></td>
@@ -20,7 +28,24 @@
 
     </table>
   </div>
-  <a href="#" onclick="submitProof()" class="btn btn-primary">Submit Proof</a>
+  <a href="#" onclick="submitProof()" class="btn btn-primary">Withdraw</a>
+
+
+  <hr/>
+
+  <div class="table-responsive">
+    <table class="table table-bordered">
+        <tr>
+          <td>Factorial value</td>
+          <td>  <input type="text" size="60" id="factvalue" ></textarea></td>
+        </tr>
+        <tr>
+          <td>Amount in Finney</td>
+          <td>  <input type="text" size="60" id="startNewRoundAmount" ></textarea></td>
+        </tr>
+    </table>
+  </div>
+  <a href="#" onclick="startNewRound()" class="btn btn-primary">Start New Round</a>
 </body>
 
 <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.js"></script>
