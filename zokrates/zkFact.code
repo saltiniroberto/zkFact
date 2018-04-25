@@ -1,0 +1,9 @@
+// only using add, no need to flatten
+def main(private n):
+  x = 1
+  ne = n+1
+  for i in 1..100 do
+	mul = if i < ne then i else 1  fi
+	x = x * mul
+  endfor 
+  return x

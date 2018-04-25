@@ -7,15 +7,14 @@ function startApp() {
 }
 
 function submitProof() {
-  abi = JSON.parse('[ { "constant": false, "inputs": [ { "name": "a", "type": "uint256[2]" }, { "name": "a_p", "type": "uint256[2]" }, { "name": "b", "type": "uint256[2][2]" }, { "name": "b_p", "type": "uint256[2]" }, { "name": "c", "type": "uint256[2]" }, { "name": "c_p", "type": "uint256[2]" }, { "name": "h", "type": "uint256[2]" }, { "name": "k", "type": "uint256[2]" } ], "name": "withdraw", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [ { "name": "a", "type": "uint256[2]" }, { "name": "a_p", "type": "uint256[2]" }, { "name": "b", "type": "uint256[2][2]" }, { "name": "b_p", "type": "uint256[2]" }, { "name": "c", "type": "uint256[2]" }, { "name": "c_p", "type": "uint256[2]" }, { "name": "h", "type": "uint256[2]" }, { "name": "k", "type": "uint256[2]" }, { "name": "input", "type": "uint256[1]" } ], "name": "verifyTx", "outputs": [ { "name": "r", "type": "bool" } ], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "inputs": [ { "name": "_fact_value", "type": "uint256" } ], "payable": true, "stateMutability": "payable", "type": "constructor" }, { "anonymous": false, "inputs": [ { "indexed": false, "name": "", "type": "string" } ], "name": "PaidOut", "type": "event" }, { "anonymous": false, "inputs": [ { "indexed": false, "name": "", "type": "string" } ], "name": "WrongAnswer", "type": "event" }, { "anonymous": false, "inputs": [ { "indexed": false, "name": "", "type": "string" } ], "name": "Verified", "type": "event" } ]')
+  abi = JSON.parse('[ { "anonymous": false, "inputs": [ { "indexed": false, "name": "", "type": "string" } ], "name": "PaidOut", "type": "event" }, { "inputs": [ { "name": "_fact_value", "type": "uint256" } ], "payable": true, "stateMutability": "payable", "type": "constructor" }, { "constant": false, "inputs": [ { "name": "a", "type": "uint256[2]" }, { "name": "a_p", "type": "uint256[2]" }, { "name": "b", "type": "uint256[2][2]" }, { "name": "b_p", "type": "uint256[2]" }, { "name": "c", "type": "uint256[2]" }, { "name": "c_p", "type": "uint256[2]" }, { "name": "h", "type": "uint256[2]" }, { "name": "k", "type": "uint256[2]" }, { "name": "input", "type": "uint256[1]" } ], "name": "verifyTx", "outputs": [ { "name": "r", "type": "bool" } ], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [ { "name": "a", "type": "uint256[2]" }, { "name": "a_p", "type": "uint256[2]" }, { "name": "b1", "type": "uint256[2]" }, { "name": "b2", "type": "uint256[2]" }, { "name": "b_p", "type": "uint256[2]" }, { "name": "c", "type": "uint256[2]" }, { "name": "c_p", "type": "uint256[2]" }, { "name": "h", "type": "uint256[2]" }, { "name": "k", "type": "uint256[2]" } ], "name": "withdraw", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "anonymous": false, "inputs": [ { "indexed": false, "name": "", "type": "string" } ], "name": "WrongAnswer", "type": "event" }, { "anonymous": false, "inputs": [ { "indexed": false, "name": "", "type": "string" } ], "name": "Verified", "type": "event" } ]')
   zkFact = web3js.eth.contract(abi);
   contractInstance = zkFact.at($("#address").val());
 
   proof = $("#zokratesproof").val();
-  input = $("#input").val();
   lines = proof.split('\n');
 
-  var a,a_p,b,b_p,c,c_p,h,k
+  var a,a_p,b,b1,b2,b_p,c,c_p,h,k
 
   lines.forEach((line) => {
     words = line.split(/\W+/);
@@ -31,8 +30,9 @@ function submitProof() {
 
 
       case 'B':
-          //b = [web3js.toBigNumber(words[1]),web3js.toBigNumber(words[2]),web3js.toBigNumber(words[3]),web3js.toBigNumber(words[4])]
-          b = [[web3js.toBigNumber(words[1]),web3js.toBigNumber(words[2])],[web3js.toBigNumber(words[3]),web3js.toBigNumber(words[4])]]
+          // Used with old ABI  b = [[web3js.toBigNumber(words[1]),web3js.toBigNumber(words[2])],[web3js.toBigNumber(words[3]),web3js.toBigNumber(words[4])]]
+          b1 = [web3js.toBigNumber(words[1]),web3js.toBigNumber(words[2])]
+          b2 = [web3js.toBigNumber(words[3]),web3js.toBigNumber(words[4])]
           break;
 
       case 'B_p':
@@ -58,25 +58,13 @@ function submitProof() {
 
   })
 
-  var inputs = [web3js.toBigNumber(input)]
-
-  console.log(b);
 
 
-  //contractInstance.verifyTx.sendTransaction(a, a_p, b, b_p, c, c_p, h, k, inputs, function (err, transactionHash) {
-  contractInstance.withdraw.sendTransaction(a, a_p, b, b_p, c, c_p, h, k, function (err, transactionHash) {
+  contractInstance.withdraw.sendTransaction(a, a_p, b1, b2, b_p, c, c_p, h, k, function (err, transactionHash) {
     if (!err)
       console.log(transactionHash); // "0x7f9fade1c0d57a7af66ab4ead7c2eb7b11a91385"
   }
   );
-
-
-  /*
-    contractInstance.voteForCandidate(candidateName, {from: web3.eth.accounts[0]}, function() {
-      let div_id = candidates[candidateName];
-      $("#" + div_id).html(contractInstance.totalVotesFor.call(candidateName).toString());
-    });
-  */
 }
 
 $(document).ready(function () {
