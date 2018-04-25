@@ -33,3 +33,4 @@
       ../ZoKrates/target/release/zokrates compute-witness -a 4
       ````
    1. Copy the lines from `A = ...` to `K = ...` to the Dapp Zokrates Proof field
+1. The Dapp can be accessed from the following link: https://cdn.rawgit.com/saltiniroberto/zkFact/master/dapp/index.html#
