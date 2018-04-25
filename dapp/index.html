@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Hello World DApp</title>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+  <link href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css' rel='stylesheet' type='text/css'>
+</head>
+<body class="container">
+  <h1>zkFact</h1>
+  <div class="table-responsive">
+    <table class="table table-bordered">
+        <tr>
+          <td>Contract Address</td>
+          <td>  <input type="text" id="address" ></textarea></td>
+        </tr>
+        <tr>
+          <td>Zokrates Proof</td>
+          <td>  <textarea id="zokratesproof" ></textarea></td>
+        </tr>
+
+        <tr>
+          <td>Input</td>
+          <td><input type="text" id="input" /></td>
+        </tr>
+    </table>
+  </div>
+  <a href="#" onclick="submitProof()" class="btn btn-primary">Submit Proof</a>
+</body>
+
+<script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.js"></script>
+<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
+<script src="./index.js"></script>
+</html>
